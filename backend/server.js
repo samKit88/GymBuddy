@@ -1,7 +1,7 @@
-const express = require('express');
-const workoutRouter = require('./routes/workoutRoutes.js')
-require('dotenv').config();
-
+const express = require("express");
+const workoutRouter = require("./routes/workoutRoutes.js");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 //create app
 const app = express();
@@ -10,9 +10,17 @@ const app = express();
 app.use(express.json());
 
 //Routers
-app.use('/api/workout', workoutRouter);
+app.use("/api/workout", workoutRouter);
 
-//listen 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is runing! in port # ${process.env.PORT}`);
-}); 
+//connect to db
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => {
+    //listen
+    app.listen(process.env.PORT, () => {
+      console.log(`Database is connected and Server is runing on port  ${process.env.PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
