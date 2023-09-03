@@ -28,8 +28,9 @@ const WorkoutForm = () => {
 
     if (!response.ok) {
       //Update error
+      console.log(json)
       setError(json.error);
-      setEmptyFiled(json.emptyFiled);
+      setEmptyFiled(json.emptyFields);
     }
 
     if (response.ok) {

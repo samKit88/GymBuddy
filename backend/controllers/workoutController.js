@@ -33,8 +33,10 @@ const getSingleWorkout = async (req, res) => {
 //create workout
 const postWorkout = async (req, res) => {
   const { title, reps, load } = req.body;
+  console.log(req.body)
   
   const emptyFields = [];
+
 
   if(!title) {
     emptyFields.push('title');
@@ -48,8 +50,9 @@ const postWorkout = async (req, res) => {
     emptyFields.push('load');
   };
 
+
   if(emptyFields.length > 0) {
-    res.status(400).json({ error: 'Please fill all the fields', emptyFields});
+   return res.status(400).json({ error: 'Please fill all the fields', emptyFields});
   };  
   
   try {
