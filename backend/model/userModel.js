@@ -31,7 +31,7 @@ userSchema.statics.signup = async function (email, password) {
     if(!validator.isStrongPassword(password)){
         throw Error('Password is not valid');
     }
-    
+
     //check the database 
     const exist = await this.findOne({ email });
 
@@ -46,6 +46,31 @@ userSchema.statics.signup = async function (email, password) {
 
     return user
 };
+
+// static signup method
+userSchema.statics.login = async function (email, password) {
+
+    // validation
+    if(!email || !password){
+        throw Error('All fileds must be filed');
+    };
+    
+    //check the database 
+    const user = await this.findOne({ email });
+
+    if(!user) {
+        throw Error('No user with this email');
+    };
+
+    const match = await bcrypt.compare(password, user.password);    
+
+    if(!match) {
+        throw Error('Your password is incorect');
+    };
+
+    return user
+};
+
 
 
 module.exports = mongoose.model('User', userSchema);
